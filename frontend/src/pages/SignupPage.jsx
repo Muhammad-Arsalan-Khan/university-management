@@ -76,16 +76,27 @@ const SignupForm = () => {
   };
 
   return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background:
+          "linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%)",
+      }}
+    >
      <Paper
       elevation={3}
       sx={{
-        p: { xs: 2, sm: 4 },
-        maxWidth: { xs: "90%", sm: 450 },
-        mx: "auto",
-        mt: { xs: 3, sm: 5 },
+         p: { xs: 3, sm: 5 },
+          maxWidth: 420,
+          width: "90%",
+          borderRadius: "16px",
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
       }}
       >
-      <Typography variant="h5" color="#4CAF50" gutterBottom>
+      <Typography variant="h5" color="#1976d2" gutterBottom>
         Sign Up
       </Typography>
       <Box
@@ -120,7 +131,7 @@ const SignupForm = () => {
           variant="contained"
           color="primary"
           fullWidth
-          sx={{ mt: 2, bgcolor: "#4CAF50", color: "white", "&:hover": { backgroundColor: "#4ccd51ff" }, }}
+          sx={{ mt: 2, bgcolor: "#1976d2", color: "white", "&:hover": { backgroundColor: "#107be6ff" }, }}
           disabled={loading}
         >
           Sign Up
@@ -128,7 +139,7 @@ const SignupForm = () => {
          <Box sx={{ marginTop: 2 }}>
             <Typography variant="body2" color="textSecondary" align="center">
               I have Already Account{" "}
-              <Link href="/login" underline="hover" color="#4CAF50">
+              <Link href="/login" underline="hover" color="#1976d2">
                 Login
               </Link>
             </Typography>
@@ -152,6 +163,7 @@ const SignupForm = () => {
         </Alert>
       </Snackbar>
     </Paper>
+    </Box>
   )
 }
 

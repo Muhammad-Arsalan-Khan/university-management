@@ -9,6 +9,15 @@ function setUser (userData) {
     );
 }
 
+function setRole (role) {
+    return jwt.sign(
+      {
+        id: role,
+      },
+      process.env.JWT_SECRET,
+    );
+}
+
 function setAdmin (isVerified) {
     return jwt.sign(
       {
@@ -29,4 +38,4 @@ function verifyUser(token) {
     }
 }
 
-export { setUser, verifyUser, setAdmin }
+export { setUser, verifyUser, setAdmin, setRole }

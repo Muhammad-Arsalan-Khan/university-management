@@ -1,11 +1,7 @@
 import User from "../../models/userSchema.js" 
-import { userValidationSchema, userValidationSchemalogin } from "../../services/validation/userValidation.js"
 import bcrypt from "bcryptjs"
-import { setUser, setAdmin } from "../../utils/jwt.js"
-import { verifyEmail } from "../../services/nodemailer/nodemailer.js"
-import EmailOTP from "../../models/EmailOTPSchema.js"
-
-let otpGenrate = Math.floor(100000 + Math.random() * 900000)
+import { setUser, setAdmin, setRole } from "../../utils/jwt.js"
+import shortid from "shortid"
 
 async function login(req, res, next) {
   try {
@@ -15,51 +11,80 @@ async function login(req, res, next) {
        err.statusCode = 400
        throw err
     }
-    const data = { email,  password}
-    // const validatedData = userValidationSchemalogin.parse(data)
-    // if (!validatedData) {
-    //    const err = new Error("enter valid input")
-    //    err.statusCode = 400
-    //    throw err
-    // }
     const existingUser = await User.findOne({ email })
+    console.log(existingUser._id)
     if (!existingUser) {
        const err = new Error("account does not exists")
        err.statusCode = 400
        throw err
     }
-
-    if (!existingUser.isVerified) {
-      await verifyEmail(existingUser.email, otpGenrate)
-       const err = new Error("unAuthorized user")
-       err.statusCode = 401
-       throw err
-    }
-
     const isPasswordMatch = await bcrypt.compare( password, existingUser.password)
     if (!isPasswordMatch) {
        const err = new Error("invalid email password")
        err.statusCode = 400
        throw err
     }
-    const userData = {
-      username: existingUser.name,
-      email: existingUser.email,
-      id: existingUser._id,
-      isVerified: true,
-    }
-    const id = userData.id
+    const id = existingUser._id
     const token = setUser(id)
-    let Verified;
-    if (existingUser.isAdmin) {
+    let HOD;
+    let SeniorDataEntryOperator; 
+    let JuniorDataEntryOperator; 
+    let other; 
+    let Librarian; 
+    let LabIncharge;
+    let Teacher; 
+    let Student;
+    let feeOprator;
+    if (existingUser.role == "SeniorDataEntryOperator" ) {
+      const role = existingUser.role
+      SeniorDataEntryOperator = setRole(role)
+    }
+    if (existingUser.role == "JuniorDataEntryOperator" ) {
+      const role = existingUser.role
+      JuniorDataEntryOperator = setRole(role)
+    }
+    if (existingUser.role == "other" ) {
+      const role = existingUser.role
+      other = setRole(role)
+    }
+    if (existingUser.role == "Librarian" ) {
+      const role = existingUser.role
+      Librarian = setRole(role)
+    }
+    if (existingUser.role == "LabIncharge" ) {
+      const role = existingUser.role
+      LabIncharge = setRole(role)
+    }
+    if (existingUser.role == "Teacher") {
+      const role = existingUser.isVerified
+      Teacher = setRole(role)
+    }
+    if (existingUser.role == "feeOprator") {
+      const role = existingUser.isVerified
+      feeOprator = setRole(role)
+    }
+    if (existingUser.role == "Student") {
+      const role = existingUser.isVerified
+      Student = setRole(role)
+    }
+    if (existingUser.role == "HOD") {
       const isVerified = existingUser.isVerified
-      Verified = setAdmin(isVerified)
+      HOD = setAdmin(isVerified)
     }
     res.status(200).json({
       message: "login successful",
-      user: userData,
+      // user: userData,
+      id: existingUser._id,
       token,
-      Verified
+      HOD,
+      SeniorDataEntryOperator,
+      JuniorDataEntryOperator,
+      other,
+      Librarian,
+      LabIncharge,
+      Teacher,
+      Student,
+      feeOprator
     })
   } catch (err) {
     next(err)
@@ -68,19 +93,14 @@ async function login(req, res, next) {
 
 async function signup(req, res, next) {
   try {
-    const { name, email, password} = req.body
-    if(!name || !email || !password){
+    const { Username, email, password, role} = req.body
+    if(!Username || !email || !password ||  !role){
       const err = new Error("field are required")
       err.statusCode = 400
       throw err
     }
-    const data = { name, email,  password}
-    const validatedData = userValidationSchema.parse(data)
-    if(!validatedData){
-      const err = new Error("enter the valid input")
-      err.statusCode = 400
-      throw err
-    }
+    const userId = shortid.generate()
+    const data = { Username , email,  password, role, userId}
     const existingUser = await User.findOne({ email })
     if (existingUser) {
       const err = new Error("Account already exists")
@@ -88,77 +108,12 @@ async function signup(req, res, next) {
       throw err
     }
     const hashedPassword = await bcrypt.hash(password, 10)
-    const newUser = new User({ ...validatedData, password: hashedPassword })
+    const newUser = new User({ ...data , password: hashedPassword })
     await newUser.save()
-    await verifyEmail(newUser.email, otpGenrate)
-    res.status(201).json({ message: "user registered successfully", data: newUser._id || "signup success" })
+    res.status(201).json({ message: "user registered successfully", data: newUser._id, id: userId || "signup success" })
+    //  res.status(201).json({ message: "user registered successfully"})
   } catch (err) {
      next(err)
-  }
-}
-
-async function verifyEmailOTP(req, res, next)  {
-  try {
-    const id = req.params.id
-    const { email, otp } = req.body
-
-    const otpDoc = await EmailOTP.findOne({ email, otp  });
-
-    if (!otpDoc) {
-       const err = new Error("invalid OTP or email")
-       err.statusCode = 400
-       throw err
-    }
-
-    if (otpDoc.isUsed) {
-       const err = new Error("OTP already used")
-       err.statusCode = 400
-       throw err
-    }
-
-    if (otpDoc.expiresAt < new Date()) {
-      const err = new Error("OTP has expired")
-       err.statusCode = 400
-       throw err
-    }
-
-    otpDoc.isUsed = true
-    await otpDoc.save()
-     const updatedUser = await User.findByIdAndUpdate(
-      id,
-      {
-        isVerified : true,
-      },
-      { new: true }
-    )
-    if (!updatedUser) {
-       const err = new Error("user not found")
-       err.statusCode = 400
-       throw err
-    }
-    // await EmailOTP.deleteMany({ email })
-    return res.status(200).json({ message: "OTP verified successfully" })
-
-  } catch (err) {
-    next(err)
-  }
-}
-
-async function resendEmail(req, res, next){
-  try {
-  const { email } = req.body
-  const existingUser = await User.findOne({ email })
-    if (!existingUser) {
-       const err = new Error("account does not exists")
-       err.statusCode = 400
-       throw err
-    }
-    await verifyEmail(existingUser.email, otpGenrate)
-    res.status(200).json({
-      message: "OTP resended"
-    })
-  } catch (err) {
-    next(err)
   }
 }
 
@@ -175,5 +130,29 @@ async function logout(req, res, err) {
   }
 }
 
+// async function getUser(req, res, next) {
+//   try {
+//     const Users = await User.find()
+//     res.status(200).json({ success: true, data: Users });
+//   } catch (err) {
+//     next(err)
+//   }
+// }
 
-export { login, signup, verifyEmailOTP, resendEmail, logout }
+async function getUser(req, res, next) {
+  try {
+    const Users = await User.find({}, { _id: 1, Username: 1, email: 1 });
+    const formattedUsers = Users.map(u => ({
+      _id: u._id,
+      name: u.Username,
+      email: u.email
+    }));
+    res.status(200).json({ success: true, data: formattedUsers });
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+
+export { login, signup,  logout, getUser }

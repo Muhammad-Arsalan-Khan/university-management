@@ -10,12 +10,6 @@ dotenv.config();
 
 const app = express()
 
-// const corsOptions = {
-//   origin: 'http://localhost:5173',   
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH',], 
-//   credentials: true, 
-// }
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cors())
@@ -27,7 +21,7 @@ app.use(customLogger)
 
 //Route
 app.use("/api",Routes)
-app.use("/",(req, res) => res.json({msg: "server start"}))
+// app.use("/",(req, res) => res.json({msg: "server start"}))
 
 
 //error middleware
@@ -36,7 +30,7 @@ app.use(errorHandler)
 const PORT = process.env.PORT || 5000
 connectMongoDB()
   .then(() => {
-      console.log("MongoDB connected")
+      console.log("database connected")
       app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
   })
   .catch((err) => {

@@ -17,7 +17,7 @@ function LandingPage() {
         <main style={{ flexGrow: 1 }}>
           <Content />
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   );

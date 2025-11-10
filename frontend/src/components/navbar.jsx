@@ -1,230 +1,320 @@
-import logo from "../assets/logo.PNG";
+// import {
+//   AppBar,
+//   Toolbar,
+//   Button,
+//   Typography,
+//   Box,
+//   IconButton,
+//   Drawer,
+//   List,
+//   ListItem,
+//   ListItemText,
+// } from "@mui/material";
+// import { Link, useNavigate } from "react-router-dom";
+// import MenuIcon from "@mui/icons-material/Menu";
+// import SchoolIcon from "@mui/icons-material/School";
+// import Cookies from "js-cookie";
+// import { useEffect, useState } from "react";
 
+// const Navbar = () => {
+//   const [openDrawer, setOpenDrawer] = useState(false);
+//   const [authCheck, setAuthCheck] = useState(false);
+//   // const [admin, setAdmin] = useState(false);
+//   const [userData, setUserData] = useState(null);
+
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const token = Cookies.get("token");
+//     const HOD = Cookies.get("HOD");
+
+//     if (token) {
+//       setAuthCheck(true);
+//       // setAdmin(isVerified === "true");
+//       // setUserData(JSON.parse(user));
+//     } else {
+//       setAuthCheck(false);
+//       // setAdmin(false);
+//       setUserData(null);
+//     }
+//   }, []);
+
+//   const toggleDrawer = () => {
+//     setOpenDrawer(!openDrawer);
+//   };
+
+//   const logout = () => {
+//     Cookies.remove("token");
+//     Cookies.remove("HOD");
+//     // localStorage.removeItem("user");
+//     setAuthCheck(false);
+//     // setAdmin(false);
+//     setUserData(null);
+//     navigate("/");
+//   };
+
+//   const menuItems = (
+//     <>
+//       {authCheck ? (
+//         <>
+//           <ListItem button component={Link} to="/" sx={{ color: "#333" }}>
+//             <ListItemText primary="Home" />
+//           </ListItem>
+//           <ListItem
+//             button
+//             component={Link}
+//             to={
+//               admin
+//                 ? `/admin/dashboard/${userData?.id}`
+//                 : `/dashboard/${userData?.id}`
+//             }
+//             sx={{ color: "#333" }}
+//           >
+//             <ListItemText primary="Dashboard" />
+//           </ListItem>
+//           <ListItem
+//             button
+//             onClick={logout}
+//             sx={{
+//               backgroundColor: "#1976d2",
+//               color: "#fff",
+//               "&:hover": { backgroundColor: "#1565c0" },
+//             }}
+//           >
+//             <ListItemText primary="Logout" />
+//           </ListItem>
+//         </>
+//       ) : (
+//         <>
+//           <ListItem
+//             button
+//             component={Link}
+//             to="/signup"
+//             sx={{
+//               backgroundColor: "#1976d2",
+//               color: "#fff",
+//               mb: 1,
+//               "&:hover": { backgroundColor: "#1565c0" },
+//             }}
+//           >
+//             <ListItemText primary="Signup" />
+//           </ListItem>
+//           <ListItem
+//             button
+//             component={Link}
+//             to="/login"
+//             sx={{
+//               backgroundColor: "#1976d2",
+//               color: "#fff",
+//               "&:hover": { backgroundColor: "#1565c0" },
+//             }}
+//           >
+//             <ListItemText primary="Login" />
+//           </ListItem>
+//         </>
+//       )}
+//     </>
+//   );
+
+//   return (
+//     <>
+//       {/* ✅ Top Logout Button (when logged in) */}
+//       {authCheck && (
+//         <Box
+//           sx={{
+//             display: "flex",
+//             justifyContent: "flex-end",
+//             padding: "10px 16px",
+//           }}
+//         >
+//           <Button
+//             color="inherit"
+//             onClick={logout}
+//             sx={{
+//               backgroundColor: "#1976d2",
+//               color: "#fff",
+//               fontSize: "0.8rem",
+//               padding: "5px 12px",
+//               borderRadius: "6px",
+//               "&:hover": { backgroundColor: "#1565c0" },
+//             }}
+//           >
+//             Logout
+//           </Button>
+//         </Box>
+//       )}
+
+//       {/* ✅ Main AppBar */}
+//       {!authCheck && (
+//         <AppBar
+//           position="sticky"
+//           sx={{
+//             background: "linear-gradient(90deg, #1976d2, #1565c0)",
+//             boxShadow: 3,
+//           }}
+//         >
+//           <Toolbar
+//             sx={{
+//               display: "flex",
+//               justifyContent: "space-between",
+//               alignItems: "center",
+//             }}
+//           >
+//             {/* Left: Logo and Title */}
+//             <Box sx={{ display: "flex", alignItems: "center" }}>
+//               <SchoolIcon sx={{ mr: 1, color: "white" }} />
+//               <Typography
+//                 variant="h6"
+//                 sx={{
+//                   fontWeight: 700,
+//                   color: "white",
+//                   display: "flex",
+//                   alignItems: "center",
+//                 }}
+//               >
+//                 UniManage Pro
+//               </Typography>
+//             </Box>
+
+//             {/* Mobile Menu */}
+//             <Box sx={{ display: { xs: "block", sm: "none" } }}>
+//               <IconButton onClick={toggleDrawer} sx={{ color: "white" }}>
+//                 <MenuIcon />
+//               </IconButton>
+//             </Box>
+
+//             {/* Right Buttons (Desktop) */}
+//             <Box sx={{ display: { xs: "none", sm: "block" } }}>
+//               {/* <Button
+//                 variant="outlined"
+//                 color="inherit"
+//                 component={Link}
+//                 to="/signup"
+//                 sx={{
+//                   borderColor: "white",
+//                   color: "white",
+//                   fontWeight: "bold",
+//                   mr: 1,
+//                   "&:hover": {
+//                     backgroundColor: "rgba(255,255,255,0.1)",
+//                   },
+//                 }}
+//               >
+//                 Signup
+//               </Button> */}
+//               <Button
+//                 variant="contained"
+//                 sx={{
+//                   backgroundColor: "white",
+//                   color: "#1976d2",
+//                   fontWeight: "bold",
+//                   "&:hover": { backgroundColor: "#e3f2fd" },
+//                 }}
+//                 component={Link}
+//                 to="/login"
+//               >
+//                 Login
+//               </Button>
+//             </Box>
+//           </Toolbar>
+//         </AppBar>
+//       )}
+
+//       {/* ✅ Drawer (Mobile) */}
+//       <Drawer
+//         anchor="right"
+//         open={openDrawer}
+//         onClose={toggleDrawer}
+//         sx={{
+//           "& .MuiDrawer-paper": {
+//             width: "65%",
+//           },
+//         }}
+//       >
+//         <Box
+//           sx={{ width: "100%" }}
+//           role="presentation"
+//           onClick={toggleDrawer}
+//           onKeyDown={toggleDrawer}
+//         >
+//           <List>{menuItems}</List>
+//         </Box>
+//       </Drawer>
+//     </>
+//   );
+// };
+
+// export default Navbar;
 import {
   AppBar,
   Toolbar,
   Button,
   Typography,
   Box,
-  IconButton,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import MenuIcon from "@mui/icons-material/Menu";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [authCheck, setAuthCheck] = useState(false);
-  const [admin, setAdmin] = useState(false);
-  const [userData, setUserData] = useState(null);
-
+  const [isAuth, setIsAuth] = useState(false);
   const navigate = useNavigate();
 
-  // ✅ Initial check when component loads
+  // ✅ Check token on mount
   useEffect(() => {
     const token = Cookies.get("token");
-    const isVerified = Cookies.get("isVerified");
-    const user = localStorage.getItem("user");
-
-    if (token && user) {
-      setAuthCheck(true);
-      setAdmin(isVerified === "true"); // Make sure it's boolean
-      setUserData(JSON.parse(user));
-    } else {
-      setAuthCheck(false);
-      setAdmin(false);
-      setUserData(null);
-    }
+    setIsAuth(!!token);
   }, []);
 
-  // ✅ Toggle drawer
-  const toggleDrawer = () => {
-    setOpenDrawer(!openDrawer);
+  // ✅ Logout function (remove all cookies)
+  const handleLogout = () => {
+    // sab cookies remove karo
+    Object.keys(Cookies.get()).forEach((cookie) => Cookies.remove(cookie));
+    setIsAuth(false);
+    navigate("/login");
   };
-
-  // ✅ Logout function
-  const logout = () => {
-    Cookies.remove("token");
-    Cookies.remove("isVerified");
-    localStorage.removeItem("user");
-
-    setAuthCheck(false);
-    setAdmin(false);
-    setUserData(null);
-
-    navigate("/"); // Redirect after logout
-  };
-
-  // ✅ Menu items for Drawer (mobile)
-  const menuItems = (
-    <>
-      {authCheck ? (
-        <>
-          <ListItem button component={Link} to="/" sx={{ color: "gray" }}>
-            <ListItemText primary="Home" />
-          </ListItem>
-          <ListItem
-            button
-            component={Link}
-            to={
-              admin
-                ? `/admin/dashboard/${userData?.id}`
-                : `/dashboard/${userData?.id}`
-            }
-            sx={{ color: "gray" }}
-          >
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-          <ListItem
-            button
-            onClick={logout}
-            sx={{ backgroundColor: "#005EB8", color: "#fff" }}
-          >
-            <ListItemText primary="Logout" />
-          </ListItem>
-        </>
-      ) : (
-        <>
-          <ListItem
-            button
-            component={Link}
-            to="/signup"
-            sx={{ backgroundColor: "#005EB8", color: "#fff" }}
-          >
-            <ListItemText primary="Signup" />
-          </ListItem>
-          <ListItem
-            button
-            component={Link}
-            to="/login"
-            sx={{ backgroundColor: "#005EB8", color: "#fff" }}
-          >
-            <ListItemText primary="Login" />
-          </ListItem>
-        </>
-      )}
-    </>
-  );
 
   return (
-    <>
-      {/* ✅ Fixed logout button on top-right if logged in */}
-      {authCheck && (
-        <Box
-  sx={{
-    display: "flex",
-    justifyContent: "flex-end",
-    padding: "10px 16px", // optional spacing from top and right
-  }}
->
-  <Button
-    color="inherit"
-    onClick={logout}
-    sx={{
-      backgroundColor: "#4CAF50",
-      color: "#fff",
-      fontSize: "0.75rem",
-      padding: "4px 10px",
-      "&:hover": { backgroundColor: "#4ccd51ff" },
-    }}
-  >
-    Logout
-  </Button>
-</Box>
+    <AppBar
+      position="sticky"
+      sx={{
+        background: "linear-gradient(90deg, #1976d2, #1565c0)",
+        boxShadow: 3,
+      }}
+    >
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography variant="h6" sx={{ fontWeight: 700, color: "white" }}>
+          UniManage Pro
+        </Typography>
 
-      )}
-
-      {/* ✅ AppBar (visible when not logged in) */}
-      {!authCheck && (
-        <AppBar position="sticky" sx={{ width: "100%" }}>
-          <Toolbar
+        {isAuth ? (
+          <Button
+            onClick={handleLogout}
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
               backgroundColor: "white",
-              padding: "10px",
+              color: "#1976d2",
+              fontWeight: "bold",
+              "&:hover": { backgroundColor: "#e3f2fd" },
             }}
           >
-            <Typography
-              variant="h5"
-              fontWeight={700}
-              marginLeft={3.6}
-              color="#8BC441"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              {/* HealthMat Pro */}
-              <img
-                src={logo}
-                alt="Logo"
-                style={{ height: 70, marginRight: 16 }}
-              />
-            </Typography>
-
-            {/* Menu icon (mobile) */}
-            <Box sx={{ display: { xs: "block", sm: "none" } }}>
-              <IconButton onClick={toggleDrawer}>
-                <MenuIcon />
-              </IconButton>
-            </Box>
-
-            {/* Buttons for desktop */}
-            <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              <Button
-                color="inherit"
-                component={Link}
-                to="/signup"
-                sx={{
-                  marginRight: "18px",
-                  bgcolor: "#4CAF50",
-                  color: "white",
-                  "&:hover": { backgroundColor: "#4ccd51ff" },
-                }}
-              >
-                Signup
-              </Button>
-              <Button
-                color="inherit"
-                component={Link}
-                to="/login"
-                sx={{
-                  bgcolor: "#4CAF50",
-                  color: "white",
-                  "&:hover": { backgroundColor: "#4ccd51ff" },
-                }}
-              >
-                Login
-              </Button>
-            </Box>
-          </Toolbar>
-        </AppBar>
-      )}
-
-      {/* ✅ Drawer for mobile view */}
-      <Drawer
-        anchor="right"
-        open={openDrawer}
-        onClose={toggleDrawer}
-        sx={{
-          "& .MuiDrawer-paper": {
-            width: "60%",
-          },
-        }}
-      >
-        <Box
-          sx={{ width: "100%" }}
-          role="presentation"
-          onClick={toggleDrawer}
-          onKeyDown={toggleDrawer}
-        >
-          <List>{menuItems}</List>
-        </Box>
-      </Drawer>
-    </>
+            Logout
+          </Button>
+        ) : (
+          <Button
+            component={Link}
+            to="/login"
+            sx={{
+              backgroundColor: "white",
+              color: "#1976d2",
+              fontWeight: "bold",
+              "&:hover": { backgroundColor: "#e3f2fd" },
+            }}
+          >
+            Login
+          </Button>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };
 
