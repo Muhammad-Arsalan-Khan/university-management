@@ -1,1 +1,1 @@
-univercity management application 
+university management application 
