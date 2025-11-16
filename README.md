@@ -175,5 +175,8 @@ A well-structured relational database including:
 This University Management System (UMS) provides a complete, role-based, secure, and scalable platform to digitalize academic and administrative workflows. Under the supervision of **Sir Anwar Ali**, this system ensures modern, automated, and professional-level university operations.
 
 ---
+## ⚙️ Installation & Usage
 
-*(Ready to copy and use anywhere — professional and complete.)*
+1. **Clone or Download** this repository.  
+   ```bash
+      https://github.com/Muhammad-Arsalan-Khan/billing-system.git
