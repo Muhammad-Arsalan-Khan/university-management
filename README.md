@@ -4,6 +4,10 @@
 
 ### **Sir *Anwar Ali***
 
+### **Group Member:**
+### **Muhammmad Arsalan khan (me)***
+### **Siraj ismail***
+### **Shayan Shakil***
 
 A fully professional **University Management System** designed to digitalize and streamline all major university operations. The system provides **role-based dashboards**, **secure authentication**, and **centralized MySQL database** with complete automation of academic and administrative workflows.
 
