@@ -179,4 +179,4 @@ This University Management System (UMS) provides a complete, role-based, secure,
 
 1. **Clone or Download** this repository.  
    ```bash
-      https://github.com/Muhammad-Arsalan-Khan/billing-system.git
+      https://github.com/Muhammad-Arsalan-Khan/university-management.git
