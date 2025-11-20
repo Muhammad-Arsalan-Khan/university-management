@@ -178,6 +178,8 @@ A well-structured relational database including:
 
 This University Management System (UMS) provides a complete, role-based, secure, and scalable platform to digitalize academic and administrative workflows. Under the supervision of **Sir Anwar Ali**, this system ensures modern, automated, and professional-level university operations.
 
+working on the project add the some new features 
+
 ---
 ## ⚙️ Installation & Usage
 
